@@ -8,18 +8,31 @@ const Tarea = (function()
 	const _avance = new WeakMap();
 	const _padre = new WeakMap();
 	const _prdecesor = new WeakMap();
+	const _hijos = new WeakMap();
 
 	class Tarea
 	{
-		constructor(id, fechaInicio, fechaTermino, nombre, avance, padre, predecesor)
+		constructor(id, fechaInicio, fechaTermino, nombre, avance, predecesor)
 		{
 			_id.set(this, id);
 			_fechaInicio.set(this, fechaInicio);
 			_fechaTermino.set(this, fechaTermino);
 			_nombre.set(this, nombre);
 			_avance.set(this, avance);
-			_padre.set(this, padre);
 			_prdecesor.set(this, predecesor);
+			_padre.set(this, null);
+
+			let array = [];
+			_hijos.set(this, array);
+
+			if(fechaInicio.getFullYear() == fechaTermino.getFullYear() && 
+				fechaInicio.getMonth() == fechaTermino.getMonth() &&
+				fechaInicio.getDate() == fechaTermino.getDate())
+
+				_tipo.set(this, "Hito");
+
+			else
+				_tipo.set(this, "Tarea");
 		}
 
 		getId()
@@ -55,6 +68,45 @@ const Tarea = (function()
 		getTipo()
 		{
 			return _tipo.get(this);
+		}
+
+		getNombre()
+		{
+			return _nombre.get(this);
+		}
+
+		setPadre(id)
+		{
+			_padre.set(this, id);
+		}
+
+		setAvance(avance)
+		{
+			_avance.set(this, avance);
+		}
+
+		setPredecesor(id)
+		{
+			_prdecesor.set(this, id);
+		}
+
+		getHijoPorId(id)
+		{
+			let array = _hijos.get(this);
+			
+			for(let i = 0; i < array.length; i++)
+			{
+				if(array[i].getId() == id)
+					return array[i];
+			}
+
+			return null;
+		}
+
+		getHijoPorIndice(indice)
+		{
+			let array = _hijos.get(this);
+			return array[indice];
 		}
 
 		getTiempoRestante()
@@ -93,39 +145,43 @@ const Tarea = (function()
 			}
 		}
 
-		agregarTarea()
+		addHijo(tareaHija)
 		{
+			_tipo.set(this, "Agrupador");
 
+			tareaHija.setPadre(_id.get(this));
+
+			let array = _hijos.get(this);
+			array.push(tareaHija);
+			_hijos.set(this, array);
 		}
 
-		dibujarTarea()
+		eliminarHijo(id)
 		{
+			let arrayOriginal = _hijos.get(this);
+			let arrayNuevo = [];
 
-		}
+			for(let i = 0; i < arrayOriginal.length; i++)
+			{
+				if(arrayOriginal[i].getId() != id)
+					arrayNuevo.push(arrayOriginal[i]);
+			}
 
-		ocultarHijos()
-		{
+			let fechaInicio = _fechaInicio.get(this), fechaTermino = _fechaTermino.get(this);
 
-		}
+			if(arrayNuevo.length == 0)
+			{
+				if(fechaInicio.getFullYear() == fechaTermino.getFullYear() && 
+				fechaInicio.getMonth() == fechaTermino.getMonth() &&
+				fechaInicio.getDate() == fechaTermino.getDate())
 
-		eliminarTarea()
-		{
+					_tipo.set(this, "Hito");
 
-		}
+				else
+					_tipo.set(this, "Tarea");
+			}
 
-		agregarResponsable()
-		{
-
-		}
-
-		modificarAvance()
-		{
-
-		}
-
-		asignarPadre()
-		{
-
+			_hijos.set(this, arrayNuevo);
 		}
 	}
 
@@ -133,11 +189,81 @@ const Tarea = (function()
 
 }());
 
+const Contenedor = (function()
+{
+	const _arrayTareas = new WeakMap();
+
+	class Contenedor
+	{
+		constructor()
+		{
+			let array = [];
+
+			_arrayTareas.set(this, array);
+		}
+
+		addTarea(tarea)
+		{
+			let array = _arrayTareas.get(this);
+
+			array.push(tarea);
+
+			_arrayTareas.set(this, array);
+		}
+
+		eliminarTarea(id)
+		{
+			let arrayOriginal = _arrayTareas.get(this);
+			let arrayNuevo = [];
+
+			for(let i = 0; i < arrayOriginal.length; i++)
+			{
+				if(arrayOriginal[i].getId() != id)
+					arrayNuevo.push(arrayOriginal[i]);
+			}
+
+			_arrayTareas.set(this, arrayNuevo);
+		}
+
+		getTareaPorId(id)
+		{
+			let array = _arrayTareas.get(this);
+
+			for(let i = 0; i < array.length; i++)
+			{
+				if(array[i].getId() == id)
+					return array[i];
+			}
+
+			return null;
+		}
+
+		getTareaPorIndice(indice)
+		{
+			let array = _arrayTareas.get(this);
+			return array[indice];
+		}
+	}
+
+	return Contenedor;
+
+}());
+
 function crearTarea()
 {
 	let fecha1 = new Date(2019, 0, 25);
-	let fecha2 = new Date(2020, 5, 12);
-	let tarea = new Tarea(0, fecha1, fecha2, "Tarea1", 10, null, null); //crear objeto
+	let fecha2 = new Date(2020, 0, 25);
+	let fecha3 = new Date(2021, 2, 10);
+	let fecha4 = new Date(2022, 5, 15);
 
-	alert(tarea.getFechaInicio());
+	let tarea1 = new Tarea(4, fecha1, fecha2, "Primera tarea", 10, null); //crear objeto
+	let tarea2 = new Tarea(5, fecha3, fecha4, "Segunda tarea", 20, null);
+
+	let contenedor = new Contenedor();
+
+	contenedor.addTarea(tarea1);
+	contenedor.addTarea(tarea2);
+
+	alert(contenedor.getTareaPorId(4).getNombre());
+	alert(contenedor.getTareaPorIndice(1).getNombre());
 }
