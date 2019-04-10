@@ -109,13 +109,19 @@ const Tarea = (function()
 			return array[indice];
 		}
 
-		getTiempoRestante()
+		getDuracion()
 		{
+			let n = 0;
+			let diasRes = 0;
+			let aniosResD = 0;
+			let mesesResD = 0;
+
 			//Verificamos si el año de la fecha Inicial es el mismo de la fecha Termino 
 			if(_fechaInicio.get(this).getFullYear() != _fechaTermino.get(this).getFullYear())
 			{
 				//Si no es el mismo año, se resta la Termino a la Inicial y lo guardamos
 				let aniosRes = _fechaTermino.get(this).getFullYear() - _fechaInicio.get(this).getFullYear();
+				aniosResD = aniosRes * 365;
 			}
 
 			//Verificamos si el mes de la fecha Inicial es el mismo de la fecha Termino 
@@ -128,14 +134,16 @@ const Tarea = (function()
 				if (mesesRes<0) 
 				{
 					mesesRes = mesesRes * (-1);
-				}	
+				}
+
+				mesesResD = mesesRes * 30;	
 			}
 
 			//Verificamos si el dia de la fecha Inicial es el mismo de la fecha Termino
 			if (_fechaInicio.get(this).getDate() != _fechaTermino.get(this).getDate()) 
 			{
 				//Si no es el mismo dia, se resta la Termino a la Inicial y lo guardamos
-				let diasRes = _fechaTermino.get(this).getDate() - _fechaInicio.get(this).getDate();
+				diasRes = _fechaTermino.get(this).getDate() - _fechaInicio.get(this).getDate();
 				
 				//si es negativo, lo hacemos positivo
 				if (diasRes<0) 
@@ -143,7 +151,57 @@ const Tarea = (function()
 					diasRes = diasRes * (-1);
 				}	
 			}
+
+			return aniosResD+mesesResD+diasRes;
 		}
+
+		getTiempoRestante()
+		{
+			let n = 0;
+			let diasRes = 0;
+			let aniosResD = 0;
+			let mesesResD = 0;
+			let f = new Date();
+
+			//Verificamos si el año de la fecha Inicial es el mismo de la fecha actual
+			if(_fechaInicio.get(this).getFullYear() <= f.getFullYear())
+			{
+				//Si no es el mismo año, se resta la Termino a la Inicial y lo guardamos
+				let aniosRes = _fechaTermino.get(this).getFullYear() - f.getFullYear();
+				aniosResD = aniosRes * 365;
+			}
+
+			//Verificamos si el mes de la fecha Inicial es el mismo de la fecha Termino 
+			if (_fechaInicio.get(this).getMonth() <= f.getMonth()) 
+			{
+				//Si no es el mismo mes, se resta la Termino a la Inicial y lo guardamos
+				let mesesRes = _fechaTermino.get(this).getMonth() - f.getMonth(); 
+				
+				//si es negativo, lo hacemos positivo
+				if (mesesRes<0) 
+				{
+					mesesRes = mesesRes * (-1);
+				}
+
+				mesesResD = mesesRes * 30;	
+			}
+
+			//Verificamos si el dia de la fecha Inicial es el mismo de la fecha Termino
+			if (_fechaInicio.get(this).getDate() <= f.getDate()) 
+			{
+				//Si no es el mismo dia, se resta la Termino a la Inicial y lo guardamos
+				diasRes = _fechaTermino.get(this).getDate() - f.getDate();
+				
+				//si es negativo, lo hacemos positivo
+				if (diasRes<0) 
+				{
+					diasRes = diasRes * (-1);
+				}	
+			}
+
+			return aniosResD+mesesResD+diasRes;
+		}
+
 
 		addHijo(tareaHija)
 		{
@@ -253,17 +311,19 @@ function crearTarea()
 {
 	let fecha1 = new Date(2019, 0, 25);
 	let fecha2 = new Date(2020, 0, 25);
-	let fecha3 = new Date(2021, 2, 10);
-	let fecha4 = new Date(2022, 5, 15);
+	let fecha3 = new Date(2018, 2, 10);
+	let fecha4 = new Date(2020, 3, 15);
 
 	let tarea1 = new Tarea(4, fecha1, fecha2, "Primera tarea", 10, null); //crear objeto
 	let tarea2 = new Tarea(5, fecha3, fecha4, "Segunda tarea", 20, null);
+
+	alert(tarea2.getTiempoRestante());
 
 	let contenedor = new Contenedor();
 
 	contenedor.addTarea(tarea1);
 	contenedor.addTarea(tarea2);
 
-	alert(contenedor.getTareaPorId(4).getNombre());
-	alert(contenedor.getTareaPorIndice(1).getNombre());
+	//alert(contenedor.getTareaPorId(4).getNombre());
+	//alert(contenedor.getTareaPorIndice(1).getNombre());
 }
