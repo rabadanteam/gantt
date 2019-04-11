@@ -109,6 +109,28 @@ const Tarea = (function()
 			return array[indice];
 		}
 
+		calcularAvance()
+		{
+			let tipo = _tipo.get(this);
+
+			if(tipo == "Agrupador")
+			{
+				let array = _hijos.get(this);
+				let duracionTotal = 0;
+				let diasAvanzados = 0;
+
+				for(let i = 0; i < array.length; i++)
+				{
+					duracionTotal += array[i].getDuracion();
+					diasAvanzados += array[i].getDuracion() * array[i].getAvance() / 100;
+				}
+
+				return diasAvanzados / duracionTotal * 100;
+			}
+
+			return null;
+		}
+
 		getDuracion()
 		{
 			let n = 0;
@@ -309,21 +331,16 @@ const Contenedor = (function()
 
 function crearTarea()
 {
-	let fecha1 = new Date(2019, 0, 25);
-	let fecha2 = new Date(2020, 0, 25);
-	let fecha3 = new Date(2018, 2, 10);
-	let fecha4 = new Date(2020, 3, 15);
+	let fecha1 = new Date(2019, 2, 1);
+	let fecha2 = new Date(2019, 2, 11);
+	let fecha3 = new Date(2019, 2, 21);
 
-	let tarea1 = new Tarea(4, fecha1, fecha2, "Primera tarea", 10, null); //crear objeto
-	let tarea2 = new Tarea(5, fecha3, fecha4, "Segunda tarea", 20, null);
+	let tareaPadre = new Tarea(0, fecha1, fecha3, "Tarea Padre", 0, null);
+	let tareaHija1 = new Tarea(1, fecha1, fecha2, "Hija 1", 100, null);
+	let tareaHija2 = new Tarea(2, fecha1, fecha3, "Hija 2", 50, null);
 
-	alert(tarea2.getTiempoRestante());
+	tareaPadre.addHijo(tareaHija1);
+	tareaPadre.addHijo(tareaHija2);
 
-	let contenedor = new Contenedor();
-
-	contenedor.addTarea(tarea1);
-	contenedor.addTarea(tarea2);
-
-	//alert(contenedor.getTareaPorId(4).getNombre());
-	//alert(contenedor.getTareaPorIndice(1).getNombre());
+	alert(tareaPadre.calcularAvance());
 }
