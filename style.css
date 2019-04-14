@@ -1,0 +1,182 @@
+*{
+   font-family: "Manjari Bold";
+}
+
+#popup {
+   visibility: hidden;
+   opacity: 0;
+   margin-top: -300px;
+}
+#popup:target {
+   visibility:visible;
+   opacity: 1;
+   background-color: rgba(0,0,0,0.8);
+   position: fixed;
+   top:0;
+   left:0;
+   right:0;
+   bottom:0;
+   margin:0;
+   z-index: 999;
+   transition:all 1s;
+}
+.popup-contenedor {
+   position: relative;
+   margin:7% auto;
+   padding:30px 50px;
+   background-color: #fafafa;
+   color:#333;
+   border-radius: 3px;
+   width:25%;
+}
+a.popup-cerrar {
+   position: absolute;
+   top:3px;
+   right:3px;
+   background-color: #333;
+   padding:7px 10px;
+   font-size: 20px;
+   text-decoration: none;
+   line-height: 1;
+   color:#fff;
+}
+
+a.popup-link{
+   /*position: absolute;*/
+   top:3px;
+   right:3px;
+   background-color: #333;
+   padding:7px 10px;
+   font-size: 20px;
+   text-decoration: none;
+   line-height: 1;
+   color:#fff;
+}
+
+
+#cabecera{
+   display: flex;
+   left: 50px;
+   border-bottom: 3px solid;
+}
+
+#contenedor{
+   width: 2000px;
+}
+
+.t_ava{
+   left: 80px;
+   position: relative;
+   text-align: center;
+   display: unset;
+   justify-content: center;
+   align-items: center;
+}
+
+.tareas>div{
+   display: inline-block;
+
+}
+
+/*
+li{
+   float: left;
+}*/
+
+
+#c_id, .t_id,
+#c_nom, .t_nom,
+#c_tip, .t_tip,
+#c_fIn, .t_fIn,
+#c_fFi, .t_fFi,
+#c_dRe, .t_dRe,
+#c_but, .t_but,
+#c_ava
+{
+   position: relative;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+}
+
+div input[name="fecha"]{
+   width: 100px;
+}
+
+div input[name="plus"]{
+   width: 25px;
+   background-color: #003333;
+   border: 3px solid;
+   border-radius: 5px;
+   border-color: #0D4D4D;
+}
+
+ul{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+}
+
+div[id*="myProgress"], div[id*="myBar"]{
+   border: 3px solid;
+   border-radius: 5px;
+}
+
+div[id*="myProgress"]{
+   position: inherit;
+   top: 15px;
+}
+
+#myBar{
+   right: 90px;
+   width: 1%;
+   height:  30px;
+   background-color: #4CAF50;
+}
+
+.t_hM
+{
+   left: 10px;
+   width: 20px;
+}
+
+#c_id, .t_id{
+   left: 10px;
+   width: 50px;
+}
+#c_nom, .t_nom{
+   left: 20px;
+   height: 50px;
+   width: 230px;
+   line-break:auto;
+}
+#c_tip, .t_tip{
+   left: 30px;
+   width: 100px;
+}
+#c_fIn, .t_fIn{
+   left: 40px;
+   width: 140px;
+}
+#c_fFi, .t_fFi{
+   left: 50px;
+   width: 140px;
+}
+#c_dRe, .t_dRe{
+   left: 60px;
+   width: 100px;
+}
+#c_but, .t_but{
+   left: 70px;
+   width: 150px;
+}
+#c_ava{
+   left: 80px;
+}
+
+.avance{
+   width: 100px;
+}

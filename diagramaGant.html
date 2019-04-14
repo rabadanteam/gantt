@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+	<head>
+
+		<meta charset="utf-8">
+
+		<!--base href="http://localhost/diagramaGant/"-->
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<!--script src="diagramaGant.js"></script-->
+		<script src="loader.js"></script>
+
+		<title>Diagrama de Gant</title>
+
+	</head>
+
+	<body onload="load()">
+
+		<header>
+			<h1>Diagrama Gantt yeah yeah</h1>
+		</header>
+		<a href="#popup" class="popup-link" id="agreg">Agregar Tarea</a>
+		<br><br>
+		<div id="cabecera">
+			<div id="c_id">ID</div>
+			<div id="c_nom">Nombre</div>
+			<div id="c_tip">Tipo</div>
+			<div id="c_fIn">Fecha Inicio</div>
+			<div id="c_fFi">Fecha Fin</div>
+			<div id="c_dRe">Dias Restantes</div>
+			<div id="c_but">||||||||||||||||||</div>
+			<div id="c_ava">Avance</div>
+		</div>
+		<br>
+
+		<ul id="contenedor">
+						
+		</ul>
+
+		<article>
+			<br><br>
+			<div class="modal-wrapper" id="popup">
+			   <div class="popup-contenedor">
+			   	  <h2 style="text-align: center">Agregar Tarea</h2>
+			      <h4>ID</h4>
+			      <input type="text" id="id0">
+			      <h4>Nombre</h4>
+			      <input type="text" id="nombre">
+			      <h4>Avance</h4>
+			      <input type="text" id="avance">
+			      <h4>Color</h4>
+			      <input type="color" id="color" value="#ff0000">
+			      <br><br>
+			      <a class="popup-link" onclick="capturaDatos(); limpiarFormulario();" href="#">Enviar</a>
+			      
+			      <a class="popup-cerrar" href="#" onclick="limpiarFormulario()">X</a>
+			   </div>
+			</div>
+
+
+
+		</article>
+
+		<footer></footer>
+
+	</body>
+
+</html>
