@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<title>Date Picker</title>
+	<base href="/var/www/html/Calendario/">
+	<link rel="stylesheet" type="text/css" href="/practica3.css"> 
+	<script src="/practica3.js"></script>
+	<meta charset="utf-8"/>
+</head>
+
+<body>
+
+	<header>
+		<h1>C A L E N D A R I O</h1>
+	</header>
+	<input type="button" name="inicia" value="Iniciar" onclick="initTable();">
+	<input type="text" id="c1" onclick="showCalendar(id);">
+	<input type="text" id="c2" onclick="showCalendar(id);">
+	<input type="text" id="c3" onclick="showCalendar(id);">
+	<br><br>
+	
+	<table id="calendar">
+		<thead id="prueba"></thead>
+		<!--<thead>
+			
+			<tr id="year">
+				<th>
+					<form>
+						<button type="button" id="prevY" onclick="prevYear(); fillTable();">
+							<img id="pY" src="/img/left.svg" alt="Not Available" width= "10" height= "10">
+						</button>
+					</form>
+				</th>
+				<th  colspan="5" id="numOfYear">2019</th>
+				<th>
+					<form>
+						<button type="button" id="nextY" onclick="nextYear(); fillTable();">
+							<img id="nY" src="/img/right.svg" alt="Not Available" width= "10" height= "10">
+						</button>
+					</form>
+				</th>
+			</tr>
+			
+			<tr id="month">
+				<th id="b1">
+					<form>
+						<button type="button" id="prevM" onclick="prevMonth(); fillTable();">
+							<img id="pM" src="/img/left.svg" alt="Not Available" width= "10" height= "10">
+						</button>
+					</form>
+				</th>	
+				
+				<th id="nameOfMonth	" colspan="5">Abril</th>
+				
+				<th id="b2">
+					<form>
+						<button type="button" id="nextM" onclick="nextMonth(); fillTable();">
+							<img id="nM" src="/img/right.svg" alt="Not Available" width= "10" height= "10">
+						</button>
+					</form>
+				</th>
+			</tr>
+			
+			<tr id="days">
+				<th>L</th><th>M</th><th>M</th><th>J</th><th>V</th><th>S</th><th>D</th>
+			</tr>
+		
+		</thead>-->
+
+		<tbody id="tb1">		
+		</tbody>
+	</table>
+
+</body>
+</html>

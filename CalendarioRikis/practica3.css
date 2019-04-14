@@ -1,0 +1,128 @@
+*{
+	color: #3C3176;
+	text-align: center;
+	font-family: 'Comic Sans MS', cursive;
+}
+
+h1{
+	background-color: #003333;
+	color: #FEEABB;
+}
+
+#calendar{
+	display: none;
+}
+
+th,td{
+	margin-left: auto;
+	margin-right: auto;
+	border: 3px solid black;
+	border-collapse: collapse;
+	border-style: solid;
+	border-color: #AA3939;
+	width: auto;
+	height: auto;
+}
+
+#calendar thead{
+	text-align:center;
+	padding:5px 10px;
+	font-weight:bold;
+	font-size:xx-large;	
+}
+
+#year th{
+	color: #FFD1AA;
+	background-color: #550000;
+}
+
+#month th:nth-child(2)	{
+	color: #FFD1AA;
+	background-color: #801515;
+}
+
+#days{
+	background-color: #D46A6A;
+}
+
+td{
+	width: 60px;
+	height: 60px;
+}
+
+td:nth-child(7){
+	color: red;
+}
+
+#calendar .circulo{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: solid 3px #3C3176;
+	overflow: hidden;
+	color: red;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: lightblue;
+}
+
+#calendar .circulo:hover{
+	background-color: lightgreen;
+	color: red;
+}
+
+td:hover{
+	background-color: #226666;
+	color: #FFAAAA;
+}
+	
+#prevY{
+	width: 60px	;
+	height: 50px;
+	background-color: #801515;
+	border-style: none;
+}
+
+#nextY{
+	width: 60px;
+	height: 50px;
+	background-color: #801515;
+	border-style: none;
+}
+
+#prevY:hover{
+	background-color: #FFAAAA;
+}
+
+#nextY:hover{
+	background-color: #FFAAAA;
+}
+
+#prevM{
+	width: 60px	;
+	height: 50px;
+	background-color: #801515;
+	border-style: none;
+}
+
+#nextM{
+	width: 60px;
+	height: 50px;
+	background-color: #801515;
+	border-style: none;
+}
+
+#prevM:hover{
+	background-color: #D46A6A;
+}
+
+#nextM:hover{
+	background-color: #D46A6A;
+}
+
+footer{
+	font-weight: bold;
+}
