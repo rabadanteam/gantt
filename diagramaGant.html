@@ -26,14 +26,12 @@
 			<div id="c_id">ID</div>
 			<div id="c_nom">Nombre</div>
 			<div id="c_tip">Tipo</div>
-			<div id="c_fIn">Fecha Inicio</div>
-			<div id="c_fFi">Fecha Fin</div>
+			<div id="c_fIn">Fecha Inicio (MM/DD/YYY)</div>
+			<div id="c_fFi">Fecha Fin (MM/DD/YYY)</div>
 			<div id="c_dRe">Dias Restantes</div>
 			<div id="c_but">||||||||||||||||||</div>
 			<div id="c_ava">Avance</div>
 		</div>
-		<br>
-
 		<ul id="contenedor">
 						
 		</ul>
@@ -43,23 +41,23 @@
 			<div class="modal-wrapper" id="popup">
 			   <div class="popup-contenedor">
 			   	  <h2 style="text-align: center">Agregar Tarea</h2>
-			      <h4>ID</h4>
-			      <input type="text" id="id0">
 			      <h4>Nombre</h4>
-			      <input type="text" id="nombre">
+			      <div id="nom_col">
+			      	<input type="text" id="nombre" class="_form">
+			      	<input type="color" id="color" value="#ff0000">
+			      </div>
+			      <h4>Fecha Inicio.................Fecha Fin</h4>
+			      <div>
+			      	<input type="text" class="_form" id="_fIn" onclick="calendar(this);">
+			      	<span>__</span>
+			      	<input type="text" class="_form" id="_fFi" onclick="calendar(this);">
+			      </div>		      
 			      <h4>Avance</h4>
-			      <input type="text" id="avance">
-			      <h4>Color</h4>
-			      <input type="color" id="color" value="#ff0000">
-			      <br><br>
-			      <a class="popup-link" onclick="capturaDatos(); limpiarFormulario();" href="#">Enviar</a>
-			      
+			      <input type="text" id="avance" class="_form">
+			      <a class="popup-link" onclick="wachaFuncion(); limpiarFormulario();" href="#">Enviar</a>  
 			      <a class="popup-cerrar" href="#" onclick="limpiarFormulario()">X</a>
 			   </div>
 			</div>
-
-
-
 		</article>
 
 		<footer></footer>

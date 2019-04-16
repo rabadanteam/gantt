@@ -1,4 +1,4 @@
-var currentYear, currentMonth, currentDay, calendarYear, calendarMonth, startDay, numberOfDays, numberOfRows;
+var currentYear, currentMonth, currentDay, calendarYear, calendarMonth, startDay, numberOfDays, numberOfRows,sex;
 var eventArray = [], firstTime = true, activeTextField;
 
 //Ment to be implemente in the onclick or onfocus of the textfields that will use the datepicker, this function
@@ -41,16 +41,18 @@ function buildCalendarTable()
 	yearDisplay.colSpan = "5";
 
 	var priorYearImage = document.createElement("IMG");
-	priorYearImage.src = "img/atras.svg";
+	var aux0 = document.createTextNode("<");
+	//priorYearImage.src = "img/atras.svg";
 	var priorYear = document.createElement("TH");
 	priorYear.addEventListener("click", priorYearFunction);
-	priorYear.appendChild(priorYearImage);
+	priorYear.appendChild(aux0);
 
 	var nextYearImage = document.createElement("IMG");
-	nextYearImage.src = "img/adelante.svg";
+	var aux1 = document.createTextNode(">");
+	//nextYearImage.src = "img/adelante.svg";
 	var nextYear = document.createElement("TH");
 	nextYear.addEventListener("click", nextYearFunction);
-	nextYear.appendChild(nextYearImage);
+	nextYear.appendChild(aux1);
 
 	row.appendChild(priorYear);
 	row.appendChild(yearDisplay);
@@ -65,16 +67,16 @@ function buildCalendarTable()
 	monthDisplay.colSpan = "5";
 
 	var priorMonthImage = document.createElement("IMG");
-	priorMonthImage.src = "img/atras.svg";
+	//priorMonthImage.src = "img/atras.svg";
 	var priorMonth = document.createElement("TH");
 	priorMonth.addEventListener("click", priorMonthFunction);
-	priorMonth.appendChild(priorMonthImage);
+	priorMonth.appendChild(aux0);
 
 	var nextMonthImage = document.createElement("IMG");
-	nextMonthImage.src = "img/adelante.svg";
+	//nextMonthImage.src = "img/adelante.svg";
 	var nextMonth = document.createElement("TH");
 	nextMonth.addEventListener("click", nextMonthFunction);
-	nextMonth.appendChild(nextMonthImage);
+	nextMonth.appendChild(aux1);
 
 	row.appendChild(priorMonth);
 	row.appendChild(monthDisplay);
@@ -208,6 +210,30 @@ function monthToString(m)
 
 	return monthName;
 }
+
+function monthToInt(m)
+{
+	var monthName;
+
+	switch(m)
+	{
+		case "Enero": monthName = "01"; break;
+		case "Febrero": monthName = "02"; break;
+		case "Marzo": monthName = "03"; break;
+		case "Abril": monthName = "04"; break;
+		case "Mayo": monthName = "05"; break;
+		case "Junio": monthName = "06"; break;
+		case "Julio": monthName = "07"; break;
+		case "Agosto": monthName = "08"; break;
+		case "Septiembre": monthName = "09"; break;
+		case "Octubre": monthName = "10"; break;
+		case "Noviembre": monthName = "11"; break;
+		case "Diciembre": monthName = "12"; break;
+	}
+
+	return monthName;
+}
+
 
 //Takes two numbers, the fistone is a year using 4 digit format, and the second is a number from 0 to 11,
 //0 being january and 11 being december and returns a number from 0 to 6 that representes in which day of
@@ -373,8 +399,15 @@ function selectDate()
 {
 	var dayContent = this.innerHTML;
 	var monthContent = document.getElementById("monthDisplay").innerHTML;
+	var monthChido = monthToInt(monthContent);
 	var yearContent = document.getElementById("yearDisplay").innerHTML;
+	console.log("Wacha-> "+activeTextField.id);
 
 	if(dayContent != "")
-		activeTextField.setAttribute("value", dayContent + " - " + monthContent + " - " + yearContent);
+	{
+		let auxx = new String(monthChido + "/" + dayContent + "/" + yearContent);
+		console.log(auxx);
+		document.getElementById(''+activeTextField.id).value = auxx;
+		hideCalendar();
+	}
 }

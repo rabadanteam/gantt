@@ -12,40 +12,33 @@ const Tarea = (function()
 
 	class Tarea
 	{
-		constructor(id,nombre, avance, predecesor)
+		constructor(id,nombre, avance, predecesor,fechaInicio0,fechaTermino0)
 		{
 			_id.set(this, id);
 			_nombre.set(this, nombre);
 			_avance.set(this, avance);
 			_prdecesor.set(this, predecesor);
 			_padre.set(this, null);
+
 			let array = [];
 			_hijos.set(this, array);
-		}
 
-		setFechaInicio(fechaInicio)
-		{
-			_fechaInicio.set(this, fechaInicio);
-		}
+			let _fIn = new Date(fechaInicio0);
+			let _fFi = new Date(fechaTermino0);
 
-		setFechaFin(fechaTermino)
-		{
-			_fechaTermino.set(this, fechaTermino);
+			_fechaInicio.set(this,_fIn);
+			_fechaTermino.set(this,_fFi);
 
-			if (fechaInicio == null) 
-			{
-				alert("Porfavor Ingresar Fecha de Inicio");
-				return;
-			}
-
-			if(fechaInicio.getFullYear() == fechaTermino.getFullYear() && 
-				fechaInicio.getMonth() == fechaTermino.getMonth() &&
-				fechaInicio.getDate() == fechaTermino.getDate())
+			if(_fIn.getFullYear() == _fFi.getFullYear() && 
+				_fIn.getMonth() == _fFi.getMonth() &&
+				_fIn.getDate() == _fFi.getDate())
 
 				_tipo.set(this, "Hito");
 
 			else
 				_tipo.set(this, "Tarea");
+
+
 		}
 
 		getId()
@@ -234,7 +227,13 @@ const Tarea = (function()
 				}	
 			}
 
-			return aniosResD+mesesResD+diasRes;
+			if ((aniosResD+mesesResD+diasRes) == 0) 
+			{
+				return "Tarea no empezada";
+			}
+
+			else
+				return aniosResD+mesesResD+diasRes;
 		}
 
 

@@ -5,7 +5,8 @@ const l = new Loader();
                 "classTarea.js",
                 "classContenedor.js",
                 "classProyecto.js",
-                "pruebasFunciones0.js"],
+                "pruebasFunciones0.js",
+                "datePicker.js"],
                 function() {
                     // Callback
                     console.log('All Scripts Loaded si k si');
