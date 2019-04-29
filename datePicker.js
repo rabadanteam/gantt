@@ -44,14 +44,14 @@ function buildCalendarTable()
 	var aux0 = document.createTextNode("<");
 	//priorYearImage.src = "img/atras.svg";
 	var priorYear = document.createElement("TH");
-	priorYear.addEventListener("click", priorYearFunction);
+	priorYear.setAttribute("onclick", "priorYearFunction()");
 	priorYear.appendChild(aux0);
 
 	var nextYearImage = document.createElement("IMG");
 	var aux1 = document.createTextNode(">");
 	//nextYearImage.src = "img/adelante.svg";
 	var nextYear = document.createElement("TH");
-	nextYear.addEventListener("click", nextYearFunction);
+	nextYear.setAttribute("onclick", "nextYearFunction()");
 	nextYear.appendChild(aux1);
 
 	row.appendChild(priorYear);
@@ -69,13 +69,13 @@ function buildCalendarTable()
 	var priorMonthImage = document.createElement("IMG");
 	//priorMonthImage.src = "img/atras.svg";
 	var priorMonth = document.createElement("TH");
-	priorMonth.addEventListener("click", priorMonthFunction);
+	priorMonth.setAttribute("onclick", "priorMonthFunction()");
 	priorMonth.appendChild(aux0);
 
 	var nextMonthImage = document.createElement("IMG");
 	//nextMonthImage.src = "img/adelante.svg";
 	var nextMonth = document.createElement("TH");
-	nextMonth.addEventListener("click", nextMonthFunction);
+	nextMonth.setAttribute("onclick", "nextMonthFunction()");
 	nextMonth.appendChild(aux1);
 
 	row.appendChild(priorMonth);
@@ -132,7 +132,7 @@ function appendDayCells(table)
 		for(var j = 0; j < 7; j++)
 		{
 			td = document.createElement("TD");
-			td.id = (i * 7) + j;
+			td.id = "t_" + parseInt((i * 7) + j);
 			td.addEventListener("click", selectDate);
 			row.appendChild(td);
 		}
@@ -168,13 +168,13 @@ function initCalendar()
 function writeCalendar()
 {
 	for(var i = 0; i < 42; i++)
-		document.getElementById(i).innerHTML = "";
+		document.getElementById('t_'+i).innerHTML = "";
 
 	document.getElementById("yearDisplay").innerHTML = calendarYear;
 	document.getElementById("monthDisplay").innerHTML = monthToString(calendarMonth);
 
 	for(var i = startDay, j = 1; i < (startDay + numberOfDays); i++, j++)
-		document.getElementById(i).innerHTML = j;
+		document.getElementById('t_'+i).innerHTML = j;
 
 	for(var i = 0; i < eventArray.length; i++)
 	{
@@ -317,7 +317,7 @@ function showCalendar()
 		row5.style.display = "";
 	}
 
-	var todayCell = document.getElementById(getStartDay(currentYear, currentMonth) + currentDay - 1);
+	var todayCell = document.getElementById('t_'+(getStartDay(currentYear, currentMonth) + currentDay - 1));
 
 	if(calendarYear == currentYear && calendarMonth == currentMonth)
 		todayCell.style.backgroundColor = "rgb(0, 177, 89)";

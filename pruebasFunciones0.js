@@ -1,46 +1,9 @@
-function crearTarea()
-{
-	let fecha1 = new Date(2019, 2, 1);
-	let fecha2 = new Date(2019, 2, 11);
-	let fecha3 = new Date(2019, 2, 21);
-
-	let tareaPadre = new Tarea(0, fecha1, fecha3, "Tarea Padre", 0, null);
-	let tareaHija1 = new Tarea(1, fecha1, fecha2, "Hija 1", 100, null);
-	let tareaHija2 = new Tarea(2, fecha1, fecha3, "Hija 2", 50, null);
-
-	tareaPadre.addHijo(tareaHija1);
-	tareaPadre.addHijo(tareaHija2);
-
-	alert("newMarginO");
-}
-
-function muestraFormulario()
-{
-	alert("EPAsito");
-}
-
-function nuevaTarea()
-{
-	let proyectoMamalona = new Proyecto();
-
-	proyectoMamalona.createHTMLTarea("00","PUTAAAA","NORMAL");
-
-	console.log("HECHO");
-}
-/*
-document.getElementById('body0').onload = function () 
-{
-	console.log("entra a kansfa");
-	var proyecto = new Proyecto();
-	var contenedor = new Contenedor();	
-};
-*/
-
 console.log("entra a kansfa");
 var proyecto = new Proyecto();
 var contenedor = new Contenedor();
 var flagHijo = 0;
 var dady = null;
+var flagPrede = 0;
 
 function capturaDatos(){
 		//let i = document.getElementById('id0').value;
@@ -49,11 +12,12 @@ function capturaDatos(){
 		let c = document.getElementById('color').value;
 		let fI = document.getElementById('_fIn').value;
 		let fF = document.getElementById('_fFi').value;
+		let pre = document.getElementById('predecesor').value;
 
 		//Despues de obtener los datos del formulario lo metemos a un
 		//objeto Tarea
 
-		let tarea = new Tarea(proyecto.getIds(),n,a,null,fI,fF);
+		let tarea = new Tarea(proyecto.getIds(),n,a,pre,fI,fF,c);
 		contenedor.addTarea(tarea);
 
 		//console.log(i);
@@ -63,7 +27,7 @@ function capturaDatos(){
 
 		//Dibujamos en la pagina la nueva tarea creada, que es padre
 
-		proyecto.createHTMLTarea('contenedor',n,a,c,fI,fF,tarea.getTipo(),tarea.getTiempoRestante());
+		proyecto.createHTMLTarea('contenedor',tarea);
 		console.log("Capturados");
 }
 
@@ -97,20 +61,32 @@ function crearHijo()
 	let c = document.getElementById('color').value;
 	let fI = document.getElementById('_fIn').value;
 	let fF = document.getElementById('_fFi').value;
+	let pre = document.getElementById('predecesor').value;
 
 	//despues de tomar los valores del formulario se crea una nueva tarea 
 	// y se agregan los valores tomados del formulario
-	let tareaHijo = new Tarea(proyecto.getIds(),n,a,null,fI,fF);
+	let tareaHijo = new Tarea(proyecto.getIds(),n,a,pre,fI,fF,c);
 	contenedor.addTarea(tareaHijo);
 
-	let yeah = obtieneIdPadre("_p");
+	//Obtenemos el ID del padre
+	let _padreId = obtieneIdPadre("_p");
+
+	//Obtenemos el objeto tarea en el contenedor
+	let tareaPa = contenedor.getTareaPorId(_padreId);
+
+	//Asignamos el hijo al padre
+	tareaPa.addHijo(tareaHijo);
+
+	//Asignamos el tipo "Agrupador" al padre
+	tareaPa.setTipo("Agrupador");
+	document.getElementById('t_tip_'+_padreId).innerHTML = "Agrupador";
 
 	//Obtenemos el nodo padre, con el id antes obtenido
-	let tareaS = document.getElementById(''+yeah);
+	let tareaS = document.getElementById(''+_padreId);
 
 	//Dibujamos el nodo que será hijo de el nodo "tareaS", pero le pasamos el parametro
 	//"yeah" donde es el id del nodo, para ya no tener que hacer un get
-	proyecto.createHTMLTarea(yeah,n,a,c,fI,fF,tareaHijo.getTipo(),tareaHijo.getTiempoRestante());
+	proyecto.createHTMLTarea(_padreId,tareaHijo);
 	
 	//Obtenemos el valor del margen-left del nodo padre para referencia del margen-left del
 	//nodo hijo, para que dibuje una sangria
@@ -140,6 +116,8 @@ function limpiarFormulario()
 	document.getElementById('_fFi').value = "";
 	document.getElementById('nombre').value = "";
 	document.getElementById('avance').value = "";
+	document.getElementById('predecesor').value = "";
+
 }
 
 function ocultaHijos()
@@ -196,4 +174,64 @@ function obtieneIdPadre(tipo)
 	return yeah;
 }
 
+function aumentaAvance(botonOnClick)
+{
+	/*  En esta funcion se obtiene el id de la tarea que se le da click
+		para despues obtener el objeto tarea del cual obtenemos el avance
+		y le sumamos 1 unidad para guardarlo de nuevo en el objeto tarea
+		y aumentar en la barrita xd
+	*/
+	let aux0 = new String(botonOnClick.id);
+	let aux1 = aux0.indexOf("_b");
+	let id = aux0.substring(0,parseInt(aux1));
 
+	console.log("ID Tarea: ",id);
+
+	let tarea = contenedor.getTareaPorId(id);
+
+	let avaInicial = tarea.getAvance();
+
+	console.log("Tarea "+id+", avance: ",avaInicial);
+
+	if (avaInicial != 100) 
+	{
+		avaInicial = parseInt(avaInicial) + 1;
+
+		console.log("avance: ",avaInicial);
+
+		tarea.setAvance(avaInicial);
+
+		avaFin = tarea.getAvance();
+
+		document.getElementById('t_ava_'+id).innerHTML = avaFin + " % ";
+
+		document.getElementById('myBar_'+id).style.width = new String (avaFin + "%");
+	}
+
+	
+
+}
+
+function eliminarTareas(botonOnClick)
+{
+	let aux0 = new String(botonOnClick.id);
+	let aux1 = aux0.indexOf("_d");
+	let id = aux0.substring(0,parseInt(aux1));
+
+	//Obtenemos del contenedor la tarea
+	let tarea = contenedor.getTareaPorId(id);
+
+	//Obtenemos todos los nodos que sean de la clase tareas_padre para eliminarlas
+	let tareasHijas = document.getElementById('contenedor').querySelectorAll(".tareas_"+id);
+	let noTareasHijas = tareasHijas.length;
+	console.log("noTareasHijas: "+noTareasHijas);
+
+	for (var i = 0; i < noTareasHijas; i++) 
+	{
+		tareasHijas[i].style.display = "none";
+	}
+
+	document.getElementById(id).style.display = "none";
+
+	contenedor.eliminarTarea(id);
+}

@@ -18,7 +18,7 @@
 	<body onload="load()">
 
 		<header>
-			<h1>Diagrama Gantt yeah yeah</h1>
+			<h1>Diagrama Gantt</h1>
 		</header>
 		<a href="#popup" class="popup-link" id="agreg">Agregar Tarea</a>
 		<br><br>
@@ -29,7 +29,7 @@
 			<div id="c_fIn">Fecha Inicio (MM/DD/YYY)</div>
 			<div id="c_fFi">Fecha Fin (MM/DD/YYY)</div>
 			<div id="c_dRe">Dias Restantes</div>
-			<div id="c_but">||||||||||||||||||</div>
+			<div id="c_but">||||||||||||||</div>
 			<div id="c_ava">Avance</div>
 		</div>
 		<ul id="contenedor">
@@ -40,18 +40,24 @@
 			<br><br>
 			<div class="modal-wrapper" id="popup">
 			   <div class="popup-contenedor">
-			   	  <h2 style="text-align: center">Agregar Tarea</h2>
-			      <h4>Nombre</h4>
-			      <div id="nom_col">
+			   	  <h2 style="text-align: center">Agregar Tarea</h2>    
+			      <div class="form0">
+			      	<h4>Nombre</h4>
 			      	<input type="text" id="nombre" class="_form">
 			      	<input type="color" id="color" value="#ff0000">
 			      </div>
-			      <h4>Fecha Inicio.................Fecha Fin</h4>
-			      <div>
+			      <div class="form0">
+			      	<h4>Inicio: </h4>
 			      	<input type="text" class="_form" id="_fIn" onclick="calendar(this);">
-			      	<span>__</span>
+			      </div>
+			      <div class="form0">
+			      	<h4>Fin: </h4>
 			      	<input type="text" class="_form" id="_fFi" onclick="calendar(this);">
-			      </div>		      
+			      </div>
+			      <div class="form0">
+			      	<h4>Predecesor</h4>
+			      	<input type="text" id="predecesor" class="_form">
+			      </div>	      
 			      <h4>Avance</h4>
 			      <input type="text" id="avance" class="_form">
 			      <a class="popup-link" onclick="wachaFuncion(); limpiarFormulario();" href="#">Enviar</a>  

@@ -9,16 +9,18 @@ const Tarea = (function()
 	const _padre = new WeakMap();
 	const _prdecesor = new WeakMap();
 	const _hijos = new WeakMap();
+	const _color = new WeakMap();
 
 	class Tarea
 	{
-		constructor(id,nombre, avance, predecesor,fechaInicio0,fechaTermino0)
+		constructor(id,nombre, avance, predecesor,fechaInicio0,fechaTermino0, color)
 		{
 			_id.set(this, id);
 			_nombre.set(this, nombre);
 			_avance.set(this, avance);
 			_prdecesor.set(this, predecesor);
 			_padre.set(this, null);
+			_color.set(this,color);
 
 			let array = [];
 			_hijos.set(this, array);
@@ -46,14 +48,30 @@ const Tarea = (function()
 			return _id.get(this);
 		}
 
+		getColor()
+		{
+			return _color.get(this);
+		}
+
 		getFechaInicio()
 		{
-			return _fechaInicio.get(this);
+			let dia = _fechaInicio.get(this).getDate();
+			let mes = _fechaInicio.get(this).getMonth();
+			let anio = _fechaInicio.get(this).getFullYear();
+
+			let fechaCom = mes + "/" + dia + "/" + anio;
+			return fechaCom;
 		}
 
 		getFechaTermino()
 		{
-			return _fechaTermino.get(this);
+			let dia = _fechaTermino.get(this).getDate();
+			let mes = _fechaTermino.get(this).getMonth();
+			let anio = _fechaTermino.get(this).getFullYear();
+
+			let fechaCom = mes + "/" + dia + "/" + anio;
+
+			return fechaCom;		
 		}
 
 		getAvance()
@@ -88,12 +106,37 @@ const Tarea = (function()
 
 		setAvance(avance)
 		{
+			let tipo = _tipo.get(this);
+			console.log(tipo);
+
+			if(tipo == 'Agrupador')
+			{
+				let array = _hijos.get(this);
+				let duracionTotal = 0;
+				let diasAvanzados = 0;
+
+				for(let i = 0; i < array.length; i++)
+				{
+					duracionTotal += array[i].getDuracion();
+					diasAvanzados += array[i].getDuracion() * array[i].getAvance() / 100;
+				}
+				avance = parseInt(avance);
+				let aux = (diasAvanzados / duracionTotal) * 100;
+				_avance.set(this, parseInt(avance+aux));
+				alert(parseInt(avance+aux));
+			}
+
 			_avance.set(this, avance);
 		}
 
 		setPredecesor(id)
 		{
 			_prdecesor.set(this, id);
+		}
+
+		setTipo(tipo0)
+		{
+			_tipo.set(this,tipo0);
 		}
 
 		getHijoPorId(id)
@@ -113,28 +156,6 @@ const Tarea = (function()
 		{
 			let array = _hijos.get(this);
 			return array[indice];
-		}
-
-		calcularAvance()
-		{
-			let tipo = _tipo.get(this);
-
-			if(tipo == "Agrupador")
-			{
-				let array = _hijos.get(this);
-				let duracionTotal = 0;
-				let diasAvanzados = 0;
-
-				for(let i = 0; i < array.length; i++)
-				{
-					duracionTotal += array[i].getDuracion();
-					diasAvanzados += array[i].getDuracion() * array[i].getAvance() / 100;
-				}
-
-				return diasAvanzados / duracionTotal * 100;
-			}
-
-			return null;
 		}
 
 		getDuracion()
@@ -229,7 +250,7 @@ const Tarea = (function()
 
 			if ((aniosResD+mesesResD+diasRes) == 0) 
 			{
-				return "Tarea no empezada";
+				return "-";
 			}
 
 			else

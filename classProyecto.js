@@ -11,18 +11,38 @@ const Proyecto = (function()
 			_ids.set(this,u_id);
 		}
 
-		createHTMLTarea(_padre,_nombre,_ava,_col,_fIn,_fFi,_tip,_res)
+		createHTMLTarea(_padre,arg_tarea)
 		{
+			/*
+			=====================================================
+				Obtenemos los valores de la tarea en el 
+				argumento y si es el caso, se obtiene el
+				id del padre de la tarea
+			=====================================================
+			*/
+
+			let _nombre = arg_tarea.getNombre();
+			let _ava = arg_tarea.getAvance();
+			let _col = arg_tarea.getColor();
+			let _fIn = arg_tarea.getFechaInicio();
+			let _fFi = arg_tarea.getFechaTermino();
+			let _tip = arg_tarea.getTipo();
+			let _res = arg_tarea.getTiempoRestante();
+			let _pre = arg_tarea.getPredecesor();
+
+			/*
+			======================================================
+				Obtenemos el id correspondiente del contador 
+				para dibujarla a la nueva tarea que se va a 
+				crear, aparte de el avance se va a dibujar con
+				el "%"  y si hay espacio se agrega un caracter
+				para que no se vea feo xD
+			======================================================
+			*/
+
 			let _id = _ids.get(this); 
 
 			let avance = " "+_ava+"% ";
-
-			if (avance.length<6) 
-			{
-				for (var i = 0; avance.length < 6; i++) {
-					avance = "_"+avance;
-				}
-			}
 
 			/*
 			======================================================
@@ -47,6 +67,16 @@ const Proyecto = (function()
 			t_hM_in.setAttribute("onclick","obtenerPadre(this); ocultaHijos();");
 			t_hM.appendChild(t_hM_in);
 
+			//== Creamos el boton para eliminar tarea ==
+			let t_del_in = document.createElement("input");
+			t_del_in.setAttribute("type","button");
+			t_del_in.setAttribute("id",_id+"_d");
+			t_del_in.setAttribute("value","X");
+			t_del_in.setAttribute("name","plus");
+			t_del_in.setAttribute("onclick","eliminarTareas(this)");
+			t_hM.appendChild(t_del_in);
+
+
 			//== Creamos el nodo para mostrar el id ==
 			let t_id = document.createElement("div");
 			t_id.setAttribute("class","t_id");
@@ -63,6 +93,7 @@ const Proyecto = (function()
 			//== Creamos el nodo para mostrar el tipo ==
 			let t_tip = document.createElement("div");
 			t_tip.setAttribute("class","t_tip");
+			t_tip.setAttribute("id","t_tip_"+_id);
 			let t_tip_cont = document.createTextNode(_tip);
 			t_tip.appendChild(t_tip_cont);
 
@@ -109,17 +140,44 @@ const Proyecto = (function()
 			t_ava.setAttribute("class","t_ava");
 			t_ava.setAttribute("style","display: unset; left: 100px;");
 
+			let span_ava = document.createElement("span");
+			span_ava.setAttribute("id","t_ava_"+_id);
+
 			//== Creamos el boton que aumentara el avance ==
 			let t_ava_in = document.createElement("input");
 			t_ava_in.setAttribute("type","button");
+			t_ava_in.setAttribute("onclick","aumentaAvance(this)");
 			t_ava_in.setAttribute("value","+");
+			t_ava_in.setAttribute("id",_id+"_b");
 			t_ava_in.setAttribute("name","plus");
 
 			//== Creamos el contenedor que tendrá la barra ==
 			let t_ava_bar = document.createElement("div");
 			t_ava_bar.setAttribute("id","myProgress_"+_id);
-			t_ava_bar.setAttribute("style","width: 6%; background-color: #ddd;"+
-				"border-color: #ddd; display: inline-block;");
+
+			//==Sacamos la tarea predecesora==
+			let marginNew = 0;
+			if (_pre != "") 
+			{
+				let tareaPre = document.getElementById('myProgress_'+_pre);
+				let marginPre = tareaPre.style.marginLeft;
+				console.log("MARGEN DEL PREDESOR: "+marginPre);
+				marginNew = parseInt(marginPre)+9;
+				console.log("nuevo margen mamalon: "+marginNew);
+			}
+			
+			if (_padre == 'contenedor')
+			{
+				t_ava_bar.setAttribute("style","width: 9%; background-color: #ddd;"+
+				"border-color: #ddd; display: inline-block; margin-left: "+marginNew+"%");
+			}
+
+			else
+			{
+				t_ava_bar.setAttribute("style","width: 6%; background-color: #ddd;"+
+				"border-color: #ddd; display: inline-block; margin-left: "+marginNew+"%");
+			}
+			
 
 			//== Creamos la barra de color que aumentara ==
 			let t_ava_bar_pro = document.createElement("div");
@@ -139,7 +197,8 @@ const Proyecto = (function()
 			
 			//== Asignamos los hijos correspondientes de los contenedores avace ==
 			t_ava.appendChild(t_ava_in);
-			t_ava.appendChild(t_ava_cont);
+			t_ava.appendChild(span_ava);
+			span_ava.appendChild(t_ava_cont);
 			//t_ava_txt.appendChild(t_ava_cont);
 			t_ava.appendChild(t_ava_bar);
 
@@ -156,7 +215,7 @@ const Proyecto = (function()
 			{
 				//Va a ser padre
 				_tarea.setAttribute("class","tareas");
-				_tarea.style.backgroundColor = "#B6B6B6";
+				_tarea.style.backgroundColor = "#949494";
 				_cont.appendChild(_tarea);
 				
 			}
@@ -165,7 +224,7 @@ const Proyecto = (function()
 			{
 				//Va a ser hijo
 				_tarea.setAttribute("class","tareas_"+_padre);
-				_tarea.style.backgroundColor = "#E2E2E2";
+				_tarea.style.backgroundColor = "#B6B6B6";
 				_cont.insertAdjacentElement("afterend",_tarea);
 			}
 			

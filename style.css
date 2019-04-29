@@ -2,6 +2,28 @@
    font-family: "Manjari Bold";
 }
 
+
+table, td, th{
+   border-width: 0px;
+   border-color: white;
+   border-collapse: collapse;
+   border-style: solid;
+}
+
+td{
+   background-color: lightblue;
+   color: black;
+}
+
+td.libre{
+   background-color: lightblue;
+}
+
+td:empty
+{
+   background-color: lightblue;
+}
+
 #popup {
    visibility: hidden;
    opacity: 0;
@@ -22,7 +44,7 @@
 }
 .popup-contenedor {
    position: relative;
-   margin:7% auto;
+   margin:1% auto;
    padding:30px 50px;
    background-color: #fafafa;
    color:#333;
@@ -53,6 +75,17 @@ a.popup-link{
    color:#fff;
 }
 
+._form{
+   background-color: grey;
+   width: 200px;
+   height: 20px;
+}
+
+#fFi_f{
+    background-color: grey;
+   width: 200px;
+}
+
 
 #cabecera{
    display: flex;
@@ -73,11 +106,15 @@ a.popup-link{
    align-items: center;
 }
 
-.tareas>div{
+li[class*="tareas"]>div{
    display: inline-block;
 
 }
 
+.form0
+{
+   display: inline-block;
+}
 /*
 li{
    float: left;
